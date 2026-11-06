@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Пушистик скучает</title>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg1:#ffe9e1; --bg2:#efe3ff; --card:#ffffffcc; --ink:#4a3552; --muted:#8d7a96;
+  --peach:#ffb8a3; --lav:#c9b3ff; --mint:#a8e6cf; --pink:#ff8fab; --body:#ffd6a5;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg1:#2b2036; --bg2:#1d1a2e; --card:#3a2d4acc; --ink:#fbeaf3; --muted:#bba7c9; --body:#e8b98a;}
+}
+:root[data-theme="dark"]{--bg1:#2b2036; --bg2:#1d1a2e; --card:#3a2d4acc; --ink:#fbeaf3; --muted:#bba7c9; --body:#e8b98a;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;font-family:"Nunito",system-ui,sans-serif;color:var(--ink);
+  background:linear-gradient(160deg,var(--bg1),var(--bg2));background-attachment:fixed;
+  display:flex;justify-content:center;overflow-x:hidden}
+main{width:100%;max-width:440px;min-height:100dvh;padding:20px 18px 28px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+h1{font-family:"Comfortaa",system-ui,sans-serif;font-size:30px;margin:8px 0 0;line-height:1.15}
+.sub{margin:0;color:var(--muted);font-size:16px}
+.bubble{background:var(--card);border-radius:22px;padding:14px 18px;min-height:64px;width:100%;font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 8px 24px #b48ad622}
+.bubble::after{content:"";position:absolute;bottom:-9px;left:50%;margin-left:-10px;border:10px solid transparent;border-bottom:0;border-top-color:var(--card)}
+.stage{width:230px;height:230px;position:relative;margin-top:6px;touch-action:manipulation}
+.pet{width:100%;height:100%;animation:bob 2.4s ease-in-out infinite;transform-origin:50% 90%}
+.sad .pet{animation:droop 3.4s ease-in-out infinite}
+.pop .pet{animation:pop .5s ease}
+@keyframes bob{0%,100%{transform:translateY(0) scale(1,1)}50%{transform:translateY(-8px) scale(1.02,.98)}}
+@keyframes droop{0%,100%{transform:translateY(4px) scale(1.02,.96)}50%{transform:translateY(8px) scale(1.03,.95)}}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.18,.86)}70%{transform:scale(.94,1.1)}100%{transform:scale(1)}}
+.stats{width:100%;display:grid;gap:10px;background:var(--card);padding:14px 16px;border-radius:22px}
+.row{display:grid;grid-template-columns:96px 1fr;align-items:center;gap:10px;text-align:left;font-weight:800;font-size:16px}
+.bar{height:16px;background:#c9b3ff44;border-radius:99px;overflow:hidden}
+.fill{height:100%;border-radius:99px;transition:width .5s ease,background .5s}
+.btns{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{font:inherit;font-weight:800;font-size:17px;min-height:60px;border:0;border-radius:20px;color:#4a3552;cursor:pointer;padding:10px 8px;transition:transform .12s}
+button:active{transform:scale(.94)}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+#hug{background:var(--peach)} #praise{background:var(--lav)}
+.count{color:var(--muted);font-size:15px;margin:0}
+.heart{position:fixed;pointer-events:none;font-size:26px;animation:fly 1.6s ease-out forwards;z-index:5}
+@keyframes fly{to{transform:translateY(-220px) rotate(var(--r));opacity:0}}
+@media (prefers-reduced-motion:reduce){.pet,.sad .pet{animation:none}.heart{animation-duration:.01s}}
+</style>
+</head>
+<body>
+<main id="app">
+  <div>
+    <h1 id="title">Пушистик</h1>
+    <p class="sub">Питомец, который живёт на твоей любви</p>
+  </div>
+
+  <div class="bubble" id="say">Привет! Я так ждал тебя!</div>
+
+  <div class="stage" id="stage">
+    <svg class="pet" viewBox="0 0 200 200" aria-label="Пушистик">
+      <ellipse cx="100" cy="188" rx="52" ry="7" fill="#b48ad633"/>
+      <path d="M52 62 L44 20 L84 46Z" fill="var(--body)"/>
+      <path d="M148 62 L156 20 L116 46Z" fill="var(--body)"/>
+      <path d="M54 55 L50 32 L70 46Z" fill="#ff8fab"/>
+      <path d="M146 55 L150 32 L130 46Z" fill="#ff8fab"/>
+      <ellipse cx="100" cy="118" rx="76" ry="68" fill="var(--body)"/>
+      <ellipse cx="100" cy="140" rx="40" ry="30" fill="#fff3e0" opacity=".7"/>
+      <g id="eyes"></g>
+      <ellipse cx="62" cy="122" rx="12" ry="8" fill="#ff8fab" opacity=".55"/>
+      <ellipse cx="138" cy="122" rx="12" ry="8" fill="#ff8fab" opacity=".55"/>
+      <path d="M95 117 L105 117 L100 124Z" fill="#6b4a5e"/>
+      <path id="mouth" d="M84 130 Q100 146 116 130" fill="none" stroke="#6b4a5e" stroke-width="4" stroke-linecap="round"/>
+      <g id="tear" opacity="0"><path d="M72 112 q-6 12 0 16 q6 -4 0 -16z" fill="#7fc8ff"/></g>
+    </svg>
+  </div>
+
+  <div class="stats">
+    <div class="row"><span>Обнимашки</span><div class="bar"><div class="fill" id="f1"></div></div></div>
+    <div class="row"><span>Настроение</span><div class="bar"><div class="fill" id="f2"></div></div></div>
+  </div>
+
+  <div class="btns">
+    <button id="hug">🤗 Обнять</button>
+    <button id="praise">💬 Похвалить</button>
+  </div>
+  <p class="count" id="count"></p>
+</main>
+
+<script>
+/* ===== ПОМЕНЯЙ ПОД ВАС ===== */
+var PET_NAME = "Богданчик";
+var HER_NAME = "Кісуля";
+var COMPLIMENTS = [
+  "Ты самая красивая, даже когда не накрашена и ругаешься на пробки.",
+  "У тебя лучший смех, я готов платить за подписку.",
+  "Ты умнее всех, кого я знаю. Особенно меня.",
+  "Рядом с тобой даже понедельник почти терпимый.",
+  "Ты пахнешь как уют. Это научный факт.",
+  "Ты шикарно выбираешь, что заказать. Я просто доедаю.",
+  "Твоя улыбка заряжает быстрее, чем повербанк.",
+  "С тобой можно хоть на край света и обратно, лишь бы там был вайфай."
+];
+var SAD_LINES = ["Где ты? Я тут один сижу…", "Ты про меня забыла? Я не обижаюсь. Почти.", "Я сделал вид, что не скучаю. Не получилось."];
+var HAPPY_LINES = ["Мррр, ещё!", "Лучший день в моей жизни!", "Ты — мой человек.", "Я сейчас растаю."];
+/* ============================ */
+
+var KEY = "pet-state-v1";
+var s = {love:70, mood:70, hugs:0, last:Date.now()};
+function load(){try{var r=localStorage.getItem(KEY);if(r){s=Object.assign(s,JSON.parse(r));}}catch(e){}}
+function save(){try{s.last=Date.now();localStorage.setItem(KEY,JSON.stringify(s));}catch(e){}}
+function clamp(v){return Math.max(0,Math.min(100,v));}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+var $=function(id){return document.getElementById(id);};
+
+function render(){
+  var avg=(s.love+s.mood)/2, sad=avg<35;
+  $("app").className=sad?"sad":"";
+  $("f1").style.width=s.love+"%"; $("f2").style.width=s.mood+"%";
+  $("f1").style.background=s.love<35?"#ff8fab":"var(--mint)";
+  $("f2").style.background=s.mood<35?"#ff8fab":"var(--mint)";
+  $("mouth").setAttribute("d", sad?"M86 142 Q100 128 114 142":(avg>70?"M80 128 Q100 152 120 128":"M84 130 Q100 146 116 130"));
+  $("tear").setAttribute("opacity", sad?1:0);
+  var big=avg>70;
+  $("eyes").innerHTML = sad
+    ? '<path d="M64 104 q10 -8 20 0" stroke="#6b4a5e" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M116 104 q10 -8 20 0" stroke="#6b4a5e" stroke-width="4" fill="none" stroke-linecap="round"/>'
+    : (big
+      ? '<path d="M62 106 q12 -14 24 0" stroke="#6b4a5e" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M114 106 q12 -14 24 0" stroke="#6b4a5e" stroke-width="5" fill="none" stroke-linecap="round"/>'
+      : '<circle cx="74" cy="104" r="8" fill="#6b4a5e"/><circle cx="126" cy="104" r="8" fill="#6b4a5e"/><circle cx="77" cy="101" r="3" fill="#fff"/><circle cx="129" cy="101" r="3" fill="#fff"/>');
+  $("count").textContent = "Обнимашек в копилке: "+s.hugs;
+}
+function say(t){$("say").textContent=t;}
+function hearts(x,y,e){
+  for(var i=0;i<7;i++){
+    var h=document.createElement("span");h.className="heart";h.textContent=e||pick(["❤️","💖","💕","✨"]);
+    h.style.left=(x+(Math.random()*90-45))+"px";h.style.top=(y+(Math.random()*30-15))+"px";
+    h.style.setProperty("--r",(Math.random()*60-30)+"deg");
+    document.body.appendChild(h);setTimeout(function(el){return function(){el.remove();};}(h),1700);
+  }
+}
+function boing(){var a=$("app");a.classList.remove("pop");void a.offsetWidth;a.classList.add("pop");setTimeout(function(){a.classList.remove("pop");},520);}
+function buzz(p){try{if(navigator.vibrate)navigator.vibrate(p);}catch(e){}}
+function pos(){var r=$("stage").getBoundingClientRect();return [r.left+r.width/2,r.top+r.height/2];}
+
+$("hug").addEventListener("click",function(){
+  s.love=clamp(s.love+16);s.hugs++;boing();buzz(30);var p=pos();hearts(p[0],p[1]);
+  say(pick(HAPPY_LINES));save();render();
+});
+$("praise").addEventListener("click",function(){
+  s.mood=clamp(s.mood+16);boing();buzz([20,40,20]);var p=pos();hearts(p[0],p[1],"💬");
+  say("«"+pick(COMPLIMENTS)+"»");save();render();
+});
+$("stage").addEventListener("click",function(){boing();buzz(15);say(pick(["Хихи, щекотно!","Я тут!","Ещё потыкай, мне нравится."]));});
+
+function init(){
+  load();
+  $("title").textContent=PET_NAME;
+  document.title=PET_NAME+" скучает";
+  var hrs=(Date.now()-s.last)/3600000;
+  var drop=Math.min(80,Math.floor(hrs*10));
+  s.love=clamp(s.love-drop);s.mood=clamp(s.mood-drop);
+  if(hrs>=4){say(pick(SAD_LINES));}
+  else if(hrs>0.02){say("С возвращением, "+HER_NAME+"! Я так ждал тебя!");}
+  save();render();
+  setInterval(function(){s.love=clamp(s.love-1);s.mood=clamp(s.mood-1);save();render();},20000);
+}
+init();
+</script>
+</body>
+</html>
